@@ -26,6 +26,7 @@ namespace ChaosSwap
         ConfigEntry<int> maxRadianceTier;
         ConfigEntry<bool> replaceLevelBosses;
         ConfigEntry<bool> showMessages;
+        ConfigEntry<bool> showTimer;
         ConfigEntry<string> blacklist;
         ConfigEntry<KeyCode> forceKey;
         ConfigEntry<KeyCode> toggleKey;
@@ -33,7 +34,9 @@ namespace ChaosSwap
         readonly List<GameObject> pool = new List<GameObject>();
         bool poolLoaded;
         float timer;
-        bool warned;
+        int enemyCount;
+        float countRefresh;
+        GUIStyle timerStyle;
 
         void Awake()
         {
@@ -44,7 +47,8 @@ namespace ChaosSwap
             maxRadianceTier = Config.Bind("Radiance", "MaxRadianceTier", 3, "Niveau de radiance maximum (1 = normal radiant).");
             replaceLevelBosses = Config.Bind("General", "ReplaceLevelBosses", false,
                 "Transformer aussi les boss d'origine du niveau (peut casser les cinématiques / la fin du niveau).");
-            showMessages = Config.Bind("General", "ShowMessages", true, "Affiche un message dans le HUD avant/pendant la transformation.");
+            showMessages = Config.Bind("General", "ShowMessages", true, "Affiche un message dans le HUD après chaque transformation.");
+            showTimer = Config.Bind("General", "ShowTimer", true, "Affiche le temps restant avant la prochaine transformation.");
             blacklist = Config.Bind("General", "Blacklist", "",
                 "Noms d'ennemis (tels qu'affichés dans le menu Sandbox) à ne jamais faire apparaître, séparés par des virgules.");
             forceKey = Config.Bind("Keys", "ForceSwap", KeyCode.F8, "Force une transformation immédiate.");
@@ -60,7 +64,6 @@ namespace ChaosSwap
             float min = Mathf.Max(1f, minInterval.Value);
             float max = Mathf.Max(min, maxInterval.Value);
             timer = Random.Range(min, max);
-            warned = false;
         }
 
         void Update()
@@ -80,10 +83,13 @@ namespace ChaosSwap
             }
 
             timer -= Time.deltaTime; // Time.deltaTime = 0 en pause
-            if (!warned && timer <= 2f)
+
+            // Compter les ennemis 2 fois par seconde suffit (FindObjectsOfType est coûteux)
+            countRefresh -= Time.unscaledDeltaTime;
+            if (countRefresh <= 0f)
             {
-                warned = true;
-                if (GetTargets().Count > 0) Hud("<color=red>LE CHAOS ARRIVE...</color>");
+                countRefresh = 0.5f;
+                enemyCount = GetTargets().Count;
             }
             if (timer <= 0f)
             {
@@ -202,6 +208,32 @@ namespace ChaosSwap
             old.InstaKill();
             Destroy(old.gameObject);
             return radiant;
+        }
+
+        // Timer affiché en haut au centre de l'écran, seulement quand il y a des ennemis
+        void OnGUI()
+        {
+            if (!enabled.Value || !showTimer.Value || enemyCount == 0) return;
+
+            if (timerStyle == null)
+            {
+                timerStyle = new GUIStyle(GUI.skin.label)
+                {
+                    alignment = TextAnchor.UpperCenter,
+                    fontStyle = FontStyle.Bold,
+                    richText = true
+                };
+            }
+            timerStyle.fontSize = Mathf.RoundToInt(Screen.height / 30f);
+
+            string color = timer <= 3f ? "red" : "white";
+            string text = $"<color={color}>CHAOS : {Mathf.CeilToInt(Mathf.Max(0f, timer))}s</color>";
+            var rect = new Rect(0f, Screen.height * 0.03f, Screen.width, Screen.height * 0.1f);
+
+            // Ombre pour rester lisible sur fond clair
+            var shadow = new Rect(rect.x + 2f, rect.y + 2f, rect.width, rect.height);
+            GUI.Label(shadow, $"<color=black>CHAOS : {Mathf.CeilToInt(Mathf.Max(0f, timer))}s</color>", timerStyle);
+            GUI.Label(rect, text, timerStyle);
         }
 
         void Hud(string msg)

@@ -36,7 +36,8 @@ Après le premier lancement : `BepInEx\config\com.chaosswap.ultrakill.cfg`
   défaut car ça peut casser la fin du niveau / les cinématiques). Les boss **apparus grâce
   au mod** sont toujours re-transformés.
 - `Blacklist` : ennemis à ne jamais faire apparaître, ex. `Cancerous Rodent, Very Cancerous Rodent`
-- `ShowMessages` : messages dans le HUD
+- `ShowTimer` : affiche le compte à rebours en haut de l'écran (rouge les 3 dernières secondes)
+- `ShowMessages` : message dans le HUD après chaque transformation
 
 ## Fonctionnement
 
