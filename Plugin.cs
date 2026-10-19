@@ -42,7 +42,7 @@ namespace ChaosSwap
         {
             enabled = Config.Bind("General", "Enabled", true, "Active ou désactive le mod.");
             minInterval = Config.Bind("General", "MinInterval", 10f, "Délai minimum (secondes) entre deux transformations.");
-            maxInterval = Config.Bind("General", "MaxInterval", 30f, "Délai maximum (secondes) entre deux transformations.");
+            maxInterval = Config.Bind("General", "MaxInterval", 10f, "Délai maximum (secondes) entre deux transformations.");
             radiantChance = Config.Bind("Radiance", "RadiantChance", 0.25f, "Probabilité (0-1) qu'un nouvel ennemi soit radiant.");
             maxRadianceTier = Config.Bind("Radiance", "MaxRadianceTier", 3, "Niveau de radiance maximum (1 = normal radiant).");
             replaceLevelBosses = Config.Bind("General", "ReplaceLevelBosses", false,

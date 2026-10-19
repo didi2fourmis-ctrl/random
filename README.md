@@ -1,6 +1,6 @@
 # Chaos Swap — mod ULTRAKILL
 
-Toutes les **10 à 30 secondes** (aléatoire), chaque ennemi vivant est transformé en un
+Toutes les **10 secondes**, chaque ennemi vivant est transformé en un
 **ennemi aléatoire** : ennemis de base, boss (Minos Prime, Sisyphus Prime, V2, Gabriel…
 selon ce que le jeu propose dans le Sandbox), et chaque nouvel ennemi a **25 % de chances
 d'être radiant** (niveau 1 à 3).
@@ -29,7 +29,7 @@ d'être radiant** (niveau 1 à 3).
 
 Après le premier lancement : `BepInEx\config\com.chaosswap.ultrakill.cfg`
 
-- `MinInterval` / `MaxInterval` : délai entre les transformations (10 / 30 par défaut)
+- `MinInterval` / `MaxInterval` : délai entre les transformations (10 / 10 par défaut ; mets des valeurs différentes pour un délai aléatoire)
 - `RadiantChance` : probabilité d'un ennemi radiant (0.25)
 - `MaxRadianceTier` : niveau de radiance max (3)
 - `ReplaceLevelBosses` : transformer aussi les boss d'origine du niveau (désactivé par
