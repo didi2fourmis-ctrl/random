@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Le chemin du jeu et les références sont dans ../Directory.Build.props -->
+  <PropertyGroup>
+    <AssemblyName>EnnemisInvisibles</AssemblyName>
+  </PropertyGroup>
+</Project>

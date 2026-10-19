@@ -1,0 +1,6 @@
+<Project>
+  <!-- Copie automatique de chaque mod dans BepInEx/plugins/<NomDuMod> après compilation -->
+  <Target Name="CopyToPlugins" AfterTargets="Build" Condition="Exists('$(GamePath)\BepInEx\plugins')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GamePath)\BepInEx\plugins\$(AssemblyName)" />
+  </Target>
+</Project>

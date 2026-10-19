@@ -1,0 +1,41 @@
+# Chaos Swap — mod ULTRAKILL
+
+Toutes les **10 secondes**, chaque ennemi vivant est transformé en un
+**ennemi aléatoire** : ennemis de base, boss (Minos Prime, Sisyphus Prime, V2, Gabriel…
+selon ce que le jeu propose dans le Sandbox), et chaque nouvel ennemi a **25 % de chances
+d'être radiant** (niveau 1 à 3).
+
+## Installation
+
+Voir le [README principal](../README.md).
+
+## Touches
+
+| Touche | Action |
+|---|---|
+| **F8** | Forcer une transformation tout de suite |
+| **F9** | Activer / désactiver le mod |
+
+## Configuration
+
+Après le premier lancement : `BepInEx\config\com.chaosswap.ultrakill.cfg`
+
+- `MinInterval` / `MaxInterval` : délai entre les transformations (10 / 10 par défaut ; mets des valeurs différentes pour un délai aléatoire)
+- `RadiantChance` : probabilité d'un ennemi radiant (0.25)
+- `MaxRadianceTier` : niveau de radiance max (3)
+- `ReplaceLevelBosses` : transformer aussi les boss d'origine du niveau (désactivé par
+  défaut car ça peut casser la fin du niveau / les cinématiques). Les boss **apparus grâce
+  au mod** sont toujours re-transformés.
+- `Blacklist` : ennemis à ne jamais faire apparaître, ex. `Cancerous Rodent, Very Cancerous Rodent`
+- `ShowTimer` : affiche le compte à rebours en haut de l'écran (rouge les 3 dernières secondes)
+- `ShowMessages` : message dans le HUD après chaque transformation
+
+## Fonctionnement
+
+- La liste des ennemis vient de la base de données du Sandbox du jeu, donc les mises à
+  jour d'ULTRAKILL ajoutent automatiquement les nouveaux ennemis. La liste trouvée est
+  écrite dans `BepInEx\LogOutput.log`.
+- L'ancien ennemi est tué instantanément (pour que les vagues et portes des arènes
+  continuent de fonctionner) puis remplacé au même endroit. Les ennemis au sol sont
+  replacés sur le NavMesh.
+- Le timer s'arrête quand le jeu est en pause.

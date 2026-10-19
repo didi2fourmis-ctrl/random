@@ -1,50 +1,19 @@
-# Chaos Swap — mod ULTRAKILL
+# Mods ULTRAKILL
 
-Toutes les **10 secondes**, chaque ennemi vivant est transformé en un
-**ennemi aléatoire** : ennemis de base, boss (Minos Prime, Sisyphus Prime, V2, Gabriel…
-selon ce que le jeu propose dans le Sandbox), et chaque nouvel ennemi a **25 % de chances
-d'être radiant** (niveau 1 à 3).
+| Mod | Ce qu'il fait |
+|---|---|
+| [ChaosSwap](ChaosSwap/README.md) | Toutes les 10 s, chaque ennemi est transformé en un ennemi aléatoire (boss et radiants compris), avec un timer à l'écran |
+| [NiveauAleatoire](NiveauAleatoire/README.md) | À la fin d'un niveau, t'envoie dans un niveau aléatoire (Encores et Prime Sanctums compris, sans les niveaux secrets) |
+| [EnnemisInvisibles](EnnemisInvisibles/README.md) | Rend tous les ennemis invisibles |
 
 ## Installation
 
-1. Installer **BepInEx 5** (x64) dans le dossier d'ULTRAKILL
-   (ou via r2modman / Thunderstore Mod Manager), lancer le jeu une fois puis le fermer.
+1. Installer **BepInEx 5** (x64) dans le dossier d'ULTRAKILL (ou via r2modman), lancer le
+   jeu une fois puis le fermer.
 2. Installer le **SDK .NET** (8 ou plus) : https://dotnet.microsoft.com/download
-3. Double-clique sur `compiler.bat`, ou dans ce dossier, compiler :
-   ```
-   dotnet build -c Release -p:GamePath="C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL"
-   ```
-   (adapte le chemin si ton jeu est ailleurs : Steam → clic droit ULTRAKILL → Gérer → Parcourir les fichiers locaux)
-4. La DLL est copiée automatiquement dans `ULTRAKILL\BepInEx\plugins\ChaosSwap\ChaosSwap.dll`.
-   Sinon, copie `bin\Release\net471\ChaosSwap.dll` dans `BepInEx\plugins` à la main.
+3. Si ton jeu n'est pas dans `C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL`,
+   change le chemin `GamePath` dans `Directory.Build.props` (une seule fois pour tous les mods).
+4. Double-clique sur **`compiler.bat`** : tous les mods sont compilés et copiés dans
+   `ULTRAKILL\BepInEx\plugins\<NomDuMod>\`.
 
-## Touches
-
-| Touche | Action |
-|---|---|
-| **F8** | Forcer une transformation tout de suite |
-| **F9** | Activer / désactiver le mod |
-
-## Configuration
-
-Après le premier lancement : `BepInEx\config\com.chaosswap.ultrakill.cfg`
-
-- `MinInterval` / `MaxInterval` : délai entre les transformations (10 / 10 par défaut ; mets des valeurs différentes pour un délai aléatoire)
-- `RadiantChance` : probabilité d'un ennemi radiant (0.25)
-- `MaxRadianceTier` : niveau de radiance max (3)
-- `ReplaceLevelBosses` : transformer aussi les boss d'origine du niveau (désactivé par
-  défaut car ça peut casser la fin du niveau / les cinématiques). Les boss **apparus grâce
-  au mod** sont toujours re-transformés.
-- `Blacklist` : ennemis à ne jamais faire apparaître, ex. `Cancerous Rodent, Very Cancerous Rodent`
-- `ShowTimer` : affiche le compte à rebours en haut de l'écran (rouge les 3 dernières secondes)
-- `ShowMessages` : message dans le HUD après chaque transformation
-
-## Fonctionnement
-
-- La liste des ennemis vient de la base de données du Sandbox du jeu, donc les mises à
-  jour d'ULTRAKILL ajoutent automatiquement les nouveaux ennemis. La liste trouvée est
-  écrite dans `BepInEx\LogOutput.log`.
-- L'ancien ennemi est tué instantanément (pour que les vagues et portes des arènes
-  continuent de fonctionner) puis remplacé au même endroit. Les ennemis au sol sont
-  replacés sur le NavMesh.
-- Le timer s'arrête quand le jeu est en pause.
+Tu ne veux pas un des mods ? Supprime son dossier dans `BepInEx\plugins`.
